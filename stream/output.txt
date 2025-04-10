@@ -1,0 +1,5 @@
+postShortener.controller (missing .js)
+
+postShortener.controllers.js (typo/plural)
+
+PostShortener.controller.js (wrong case on Mac it's fine, on Linux it's case-sensitive)

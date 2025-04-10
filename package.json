@@ -1,0 +1,22 @@
+{
+  "name": "node_js",
+  "version": "1.0.0",
+  "description": "Node Js ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npx tailwindcss -i ./src/input.css -o ./url/style.css --watch\" \"node --watch ./url/app.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.0",
+    "axios": "^1.8.4",
+    "chalk": "^5.4.1",
+    "express": "^4.21.2",
+    "mongodb": "^6.15.0",
+    "tailwindcss": "^4.1.0"
+  }
+}
