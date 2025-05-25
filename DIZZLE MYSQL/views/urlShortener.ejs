@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+<body>
+    <%- include('./partials/header.ejs')%>      
+    <div class="flex justify-center items-center h-lvh"> 
+        <div class=" bg-amber-50 shadow-2xl w-2/3 p-5">
+            <% if(user){ %>
+                <h1 class="text-sm rounded-xl bg-green-200 inline-block p-2 mb-10 text-green-400"><i class="fa-solid fa-circle-check mr-2"></i>You're Logged In.</h1>
+            <% }else{ %>
+                <h1>You're Not Logged In.</h1>
+             <% } %>   
+            <h1 class=" block text-center font-bold">Url Shortener</h1>
+            <form action="shorten" method="post" class="space-y-3 "  id="shorten-Form">
+                <div>
+                    <label class="block " for="url">Enter URL:</label>
+                    <input class="block border border-black bg-blue-100 rounded-2xl w-full h-10 lg:h-15" type="text" name="url" required/>
+                </div>
+                <div>
+                    <label class="block" for="url">Enter shortode:</label>
+                    <input class="block border border-black bg-blue-100 rounded-2xl w-full h-10 lg:h-15" type="text" name="shortCode" required>
+                </div>
+                <% if(errors && errors.length > 0){ %>
+                    <div class=" block mb-6 bg-red-50 text-red-700 px-4 py-3 border-l-2 border-red-700 pr-5">
+                        <% errors.forEach((error)=>{ %>
+                            <p><%= error %></p>
+                        <% }); %>
+                    </div>
+                <% } %>
+                <div class="text-center">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shorten</button>
+                </div>
+            </form>
+            <div class="mt-5">
+                <h1 class="font-bold">Shortned URLs</h1>
+                <div>
+                    <ul id="shortenURLs">
+                        <% links.map(({shortCode, url, id}) => { %>
+                            <li class="pt-4">
+                                <div class="sm:flex sm:justify-between lg:flex lg:justify-between shadow-xl p-5">
+                                    <div>
+                                        <a href="/<%=  shortCode %>" target="_blank" class="text-sm text-blue-500 font-bold lg:text-xl"><%= host %>/<%= shortCode %></a>
+                                        <p class="text-sm text-gray-400"><%= (url.length === 40)?url:url.slice(0,25)%></p>
+                                    </div>
+                                    <div class="space-x-6">
+                                        <i class="fa-solid fa-copy"></i>
+                                        <button>
+                                            <a href="/edit/<%= id %>"><i class="fa-solid fa-file-pen"></i></a>
+                                        </button>
+                                        <form action="/delete/<%= id %>" method="post" class="inline-block">
+                                        <button>
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    </div>
+                                </div>
+                                
+                            </li>
+                            <% }); %>
+                    </ul>
+                </div>
+        </div>
+        </div>
+            
+    </div>
+    <%- include('./partials/footer.ejs')%>
+    <script src="https://kit.fontawesome.com/f2fbfcb494.js" crossorigin="anonymous"></script>
+</body>
+</html>

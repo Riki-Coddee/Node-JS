@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <%- include('../partials/header.ejs')%>      
+
+    <div class="container w-[60%] mx-auto mt-10">
+       <h1 class="text-center mb-10">Your Profile</h1>
+       <% if(user){ %>
+            <h1 class="text-sm rounded-xl bg-green-100 p-2 mb-10 text-green-400"><i class="fa-solid fa-circle-check mr-2"></i>You're logged in.</h1>
+        <%}else{%>
+            <h1 class="text-sm rounded-xl bg-red-100 p-2 mb-10 text-red-400"><i class="fa-solid fa-circle-check mr-2"></i>You're not logged n.</h1>
+        <%}%>
+
+        <div class="w-full h-[400px] rounded-2xl overflow-hidden shadow-2xl mb-6">
+            <div class="w-full h-full">
+              <div class="bg-blue-400 h-[50%] flex flex-col lg:flex-row justify-center items-center">
+                <div class="border-4 border-white bg-blue-300 rounded-full h-[100px] w-[100px] flex items-center justify-center m-5 overflow-hidden">
+                    <!-- <h1 class="font-bold text-2xl text-white"><%= (user.name).charAt(0).toUpperCase() %></h1> -->
+                    <img class="font-bold text-2xl text-white" src="<%=user.avatarURL%>" alt="">
+                </div>
+                <div class="text-white">
+                    <h1 class="text-lg font-bold "><%= user.name%></h1>
+                    <p class="text-base"><i class="fa-solid fa-envelope pr-2"></i><%= user.email%></p>
+                    <p class="text-base"><i class="fa-solid fa-calendar pr-2"></i>Member since 1<%= new Date(user.createdAt).toLocaleDateString()%></p>
+                </div>
+              </div>
+              <div class="h-[30%] lg:px-5 px-5 bg-gray-200">
+                <div class="flex justify-between h-full">
+                    <div class="flex flex-col justify-center items-center">
+                        <h1 class="text-base lg:text-lg"><%= user.links ? user.links.length : 0 %></h1>
+                        <p class="text-sm lg:text-base text-gray-400 text-center">LINKS CREATED</p>
+                    </div>
+                    <div class="flex flex-col justify-center items-center">
+                        <h1 class="text-base lg:text-lg"><%= user.totalClinks || 0 %></h1>
+                        <p class="text-sm lg:text-base text-gray-400 text-center">TOTAL CLICKS</p>
+                    </div>
+                    <div class="flex flex-col justify-center items-center">
+                        <h1 class="text-base lg:text-lg font-bold"><%= user.lastActive ? new Date(user.lastActive).toLocaleDateString() : "Today" %></h1>
+                        <p class="text-sm lg:text-base text-gray-400 text-center"> LAST ACTIVE</p>
+                    </div>
+                </div>
+              </div>
+                <div class="pl-5 flex flex-row gap-2 pt-4">
+                    <p class="text-sm font-semibold inline-block">Email Verification:</p>
+                    <% if(user.isEmailValid){%>
+                        <p class="bg-green-300 rounded-xl p-1 text-sm"><i class="fa-solid fa-circle-check mr-2"></i>Verified.</p>
+                    <%}else{%>
+                        <div class="flex gap-4 text-sm">
+                            <p class="bg-red-300 rounded-xl p-1"><i class="fa-solid fa-circle-xmark mr-2"></i>Not Verified.</p>
+                        <button class="rounded-xl bg-amber-500 p-2"><a href="/verify-email"><i class="fa-solid fa-location-arrow mr-2"></i>Verify</a></button>
+                        </div>                       
+                        <%}%>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="flex flex-col lg:flex-row justify-between gap-4 text-white px-5 text-sm">
+           <a href="/edit-profile" class="bg-blue-500 rounded-xl px-5 py-2 lg:px-10 inline-block"><i class="fa-solid fa-pen pr-2"></i>Edit Profile</a>
+           <%if(user.hasPassword){%>
+            <a href="/change-password" class="bg-blue-500 rounded-xl px-5 py-2 lg:px-10 inline-block"><i class="fa-solid fa-key pr-2"></i>Change Password</a>
+            <%}else{%>
+            <a href="/set-password" class="bg-blue-500 rounded-xl px-5 py-2 lg:px-10 inline-block"><i class="fa-solid fa-key pr-2"></i>Set Password</a>
+            <%}%>
+            <div class="bg-blue-500 rounded-xl px-5 py-2 lg:px-10 inline-block"><i class="fa-solid fa-right-from-bracket pr-2"></i>LogOut</div>
+           </div>
+    </div>
+
+    <%- include('../partials/footer.ejs')%>      
+    <script src="https://kit.fontawesome.com/f2fbfcb494.js" crossorigin="anonymous"></script>
+</body>
+</html>

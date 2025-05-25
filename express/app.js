@@ -1,5 +1,4 @@
 import express from 'express';
-// import { PORT } from './env.js'; 
 import 'dotenv/config';
 import { env } from './config/env.js';
 import path from 'path';

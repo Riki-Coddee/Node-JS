@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Your App Name</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-container {
+            min-height: calc(100vh - 120px);
+        }
+        .form-input {
+            @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all;
+        }
+        .btn-primary {
+            @apply w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-all;
+        }
+        .social-btn {
+            @apply flex items-center justify-center w-10 h-10 rounded-full text-white transition-all hover:opacity-90;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <%- include('../partials/header.ejs') %>
+
+    <div class="auth-container flex justify-center items-center py-12 px-4">
+        <div class="w-full max-w-4xl bg-white shadow-xl rounded-2xl overflow-hidden flex flex-col lg:flex-row">
+            <!-- Image Section -->
+            <div class="lg:w-1/2 h-64 lg:h-auto">
+                <img class="w-full h-full object-cover" src="https://plus.unsplash.com/premium_photo-1669592892297-9635e5c15f36?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Login illustration">
+            </div>
+
+            <!-- Form Section -->
+            <div class="lg:w-1/2 p-8 md:p-12">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+                <p class="text-gray-600 mb-8">Sign in to your account</p>
+
+                <% if(errors && errors.length > 0){ %>
+                    <div class="mb-6 bg-red-50 text-red-700 px-4 py-3 rounded-lg border-l-2 border-red-700 pr-5">
+                        <% errors.forEach((error)=>{ %>
+                            <p><%= error %></p>
+                        <% }); %>
+                    </div>
+                <% } %>
+
+                <form action="/login" method="post" class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required
+                               class="form-input">
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required
+                               class="form-input">
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember" name="remember" type="checkbox" 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                        </div>
+                        <div class="text-sm">
+                            <a href="/forgot-password" class="font-medium text-blue-600 hover:text-blue-500">Forgot password?</a>
+                        </div> 
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Sign In
+                    </button>
+                </form>
+
+                <div class="mt-8">
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 grid grid-cols-3 gap-3">
+                        <a href="/google" class="social-btn bg-red-600">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="/auth/facebook" class="social-btn bg-blue-600">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="/github" class="social-btn bg-gray-800">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <p class="mt-8 text-center text-sm text-gray-500">
+                    Don't have an account? 
+                    <a href="/register" class="font-medium text-blue-600 hover:text-blue-500">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer.ejs') %>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <%- include('../partials/header.ejs')%>      
+
+    <div class="container w-[60%] mx-auto mt-10">
+       <h1 class="text-center mb-5">Verify Your Email</h1>
+       <% if(user){ %>
+            <h1 class="text-sm rounded-xl bg-green-100 p-2 mb-5 text-green-400"><i class="fa-solid fa-circle-check mr-2"></i>You're logged in.</h1>
+        <%}else{%>
+            <h1 class="text-sm rounded-xl bg-red-100 p-2 mb-5 text-red-400"><i class="fa-solid fa-circle-check mr-2"></i>You're not logged n.</h1>
+        <%}%>
+
+        <div class="w-full h-[30vh] rounded-2xl overflow-hidden shadow-2xl mb-6 p-5">
+           <div class="h-[10%]">
+            <p class="text-base font-semibold inline-block lg:pr-5">Email:</p><p class="text-sm inline-block"><%= email%></p></div>
+           <div class="mt-5 mb-5 h-[40%]">
+            <h1 class="text-md">Your email has not been verified yet. Please verify your email by entering 8 digits code or request a new verification link.</h>
+           </div>
+           <div class="h-[10%] text-right">
+            <button class="text-white bg-gray-500 p-2 rounded-xl"><a href="/resend-verification-link">Resend Verification Link</a></button>
+           </div>
+        </div>
+        
+        <div class="w-full h-[15vh] rounded-2xl overflow-hidden shadow-2xl mb-6 p-5">
+            <form action="/verify-email-token" method="get">
+                <input type="text" placeholder="Enter 8-Digit Verification Code:" class="mb-5 w-full border-b" name="token">
+                <input type="hidden" name="email" value="<%= user.email %>">
+                <button type="submit" class="bg-blue-600 text-white p-4">Verify Code</button>
+            </form>
+         </div>
+    </div>
+
+    <%- include('../partials/footer.ejs')%>      
+    <script src="https://kit.fontawesome.com/f2fbfcb494.js" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+</head>
+<body>
+    <%- include('./partials/header.ejs')%>    
+    <div class="flex justify-center items-center h-lvh">
+        <div class=" bg-amber-50 shadow-2xl w-2/3 p-5">
+            <% if(user){ %>
+                <h1 class="text-sm rounded-xl bg-green-200 inline-block p-2 mb-10 text-green-400"><i class="fa-solid fa-circle-check mr-2"></i>You're Logged In.</h1>
+            <% }else{ %>
+                <h1 class="text-sm rounded-xl bg-red-200 inline-block p-2 mb-10 text-red-400"><i class="fa-solid fa-circle-xmark mr-2"></i>You're Not Logged In.</h1>
+             <% } %>  
+            <h1 class=" block text-center font-bold">Url Shortener</h1>
+            <form action="/edit/<%= id %>" method="post" class="space-y-3 "  id="shorten-Form">
+                <div>
+                    <label class="block " for="url">Enter URL:</label>
+                    <input class="block border border-black bg-blue-100 rounded-2xl w-full h-10 lg:h-15" type="text" name="url" value="<%= url%>" required/>
+                </div>
+                <div>
+                    <label class="block" for="url">Enter shortode:</label>
+                    <input class="block border border-black bg-blue-100 rounded-2xl w-full h-10 lg:h-15" type="text" name="shortCode" value="<%= shortCode %>" required>
+                </div>
+                <% if(errors && errors.length > 0){ %>
+                    <div class=" block mb-6 bg-red-50 text-red-700 px-4 py-3 border-l-2 border-red-700 pr-5">
+                        <% errors.forEach((error)=>{ %>
+                            <p><%= error %></p>
+                        <% }); %>
+                    </div>
+                <% } %>
+                <div class="text-center">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update</button>
+                </div>
+            </form>
+        </div>
+            
+    </div>
+    <%- include('./partials/footer.ejs')%>
+    <script src="https://kit.fontawesome.com/f2fbfcb494.js" crossorigin="anonymous"></script>
+</body>
+</html>

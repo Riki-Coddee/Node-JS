@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <nav class="w-full bg-[#f1eded] h-20 shadow-2xl">
+        <div class="h-full text-black flex justify-center items-center">
+           <ul class="flex justify-center items-center gap-x-4 bold">
+            <li  class="hover:text-[#95e2f1]"><a href="">Home</a></li>
+            <li class="hover:text-[#95e2f1]"><a href="">About</a></li>
+            <li class="hover:text-[#95e2f1]"><a href="">Contact</a></li>
+            <% if(!user){ %>
+            <li class="hover:text-[#95e2f1]"><a href="/login">Login</a></li>
+            <li class="hover:text-[#95e2f1]"><a href="/register">Registation</a></li>
+            <% }else{ %>
+                <li class="hover:text-[#95e2f1]"><a href="/profile">Profile</a></li>
+                <li class="hover:text-[#95e2f1]"><a href="/logout">Logout</a></li>
+            <%}%>
+           </ul>
+        </div>
+    </nav>
+</body>
+</html>

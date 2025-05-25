@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <%- include('../partials/header.ejs')%>
+
+        <div class="container w-[60%] mx-auto mt-10">
+            <h1 class="text-center mb-10">Your Profile</h1>
+            <div class="w-full h-[600px] rounded-2xl overflow-hidden shadow-2xl mb-6">
+                <% if(user){ %>
+                    <h1 class="text-sm rounded-xl bg-green-100 p-2 mb-10 text-green-400"><i
+                            class="fa-solid fa-circle-check mr-2"></i>You're logged in.</h1>
+                    <%}else{%>
+                        <h1 class="text-sm rounded-xl bg-red-100 p-2 mb-10 text-red-400"><i
+                                class="fa-solid fa-circle-check mr-2"></i>You're not logged n.</h1>
+                        <%}%>
+                            <div class="w-[80%] mx-auto">
+                                <h1 class="text-xl font-semibold border-b mb-10">Edit Your Profile</h1>
+                                <form action="/edit-profile" method="post" class="space-y-6"
+                                    enctype="multipart/form-data">
+                                    <div class="flex flex-col items-center space-y-4">
+                                        <div class="relative avatar-preview">
+                                            <%if(avatarURL){%>
+                                                <img src="<%=avatarURL%>" alt="Current Profile Picture"
+                                                    id="avatar-preview-img"
+                                                    class="rounded-full h-24 w-24 object-cover border-4 border-blue-100 shadow-md">
+                                                <%}else{%>
+                                                    <div class="rounded-full h-24 w-24 object-cover border-4 border-blue-100 shadow-md flex justify-center items-center" id="avatar-placeholder">
+                                                    <i class="fas fa-user text-5xl"></i>
+                                                    </div>
+                                                    <img src="" alt="Preview"
+                                                    id="avatar-preview-img"
+                                                    class="rounded-full h-24 w-24 object-cover border-4 border-blue-100 shadow-md hidden">
+                                                    <%}%>
+                                        </div>
+
+                                        <div class="flex flex-col items-center space-y-2">
+                                            <label for="avatar"
+                                                class="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition cursor-pointer">
+                                                <i class="fas fa-camera"></i>
+                                                <span>Change Photo</span>
+                                            </label>
+                                            <input type="file" id="avatar" name="avatar" accept="image/*"
+                                                class="hidden" />
+                                            <%if(avatarURL){%>
+                                                <button type="button" id="remove-avatar"
+                                                    class="flex items-center space-x-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                                                    <i class="fas fa-trash"></i>
+                                                    <span>Remove</span>
+                                                </button>
+                                                <%}%>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="email"
+                                            class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                        <input type="text" id="name" name="name" value="<%= name%>" required
+                                            class="form-input">
+                                    </div>
+
+                                    <button type="submit" class="btn-primary bg-blue-500 w-full py-2 text-white">
+                                        Save Changes
+                                    </button>
+                                </form>
+                                <% if(errors && errors.length> 0){ %>
+                                    <div
+                                        class="bg-red-50 text-red-700 px-4 py-3 rounded-lg border-l-2 border-red-700 pr-5">
+                                        <% errors.forEach((error)=>{ %>
+                                            <p>
+                                                <%= error %>
+                                            </p>
+                                            <% }); %>
+                                    </div>
+                                    <% } %>
+                            </div>
+            </div>
+        </div>
+        <%- include('../partials/footer.ejs')%>
+            <script src="https://kit.fontawesome.com/f2fbfcb494.js" crossorigin="anonymous"></script>
+            <script>
+                document.getElementById("avatar").addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const avatarPreviewImg = document.getElementById('avatar-preview-img');
+            avatarPreviewImg.src = event.target.result;
+            avatarPreviewImg.classList.remove('hidden');
+            avatarPreviewImg.classList.add('block');
+
+            const avatarPlaceholder = document.getElementById('avatar-placeholder');
+            if (avatarPlaceholder) {
+                avatarPlaceholder.classList.add('hidden');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+const removeBtn = document.getElementById('remove-avatar');
+if (removeBtn) {
+    removeBtn.addEventListener('click', (e) => {
+        const avatarPreviewImg = document.getElementById('avatar-preview-img');
+        avatarPreviewImg.classList.add('hidden');
+
+        let avatarPlaceholder = document.getElementById('avatar-placeholder');
+        if (!avatarPlaceholder) {
+            avatarPlaceholder = document.createElement('div');
+            avatarPlaceholder.id = 'avatar-placeholder';
+            avatarPlaceholder.className = 'rounded-full h-24 w-24 object-cover border-4 border-blue-100 shadow-md flex justify-center items-center';
+            avatarPlaceholder.innerHTML = `<i class="fas fa-user text-5xl"></i>`;
+            document.querySelector('.avatar-preview').appendChild(avatarPlaceholder);
+        } else {
+            avatarPlaceholder.classList.remove('hidden');
+            avatarPlaceholder.classList.add('flex');
+        }
+    });
+}
+
+            </script>
+           <!-- <script>
+    document.getElementById('avatar').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                // Hide default avatar if it exists
+                const defaultAvatar = document.getElementById('default-avatar');
+                if (defaultAvatar) defaultAvatar.style.display = 'none';
+                
+                // Create or update preview image
+                let previewImg = document.getElementById('avatar-preview-img');
+                if (!previewImg) {
+                    previewImg = document.createElement('img');
+                    previewImg.id = 'avatar-preview-img';
+                    previewImg.className = 'rounded-full h-24 w-24 object-cover border-4 border-blue-100 shadow-md';
+                    previewImg.alt = 'Profile Preview';
+                    document.querySelector('.relative').prepend(previewImg);
+                }
+                
+                previewImg.src = event.target.result;
+                
+                // Show remove button if it exists, or create one
+                let removeBtn = document.getElementById('remove-avatar');
+                if (!removeBtn) {
+                    removeBtn = document.createElement('button');
+                    removeBtn.id = 'remove-avatar';
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'flex items-center space-x-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition';
+                    removeBtn.innerHTML = '<i class="fas fa-trash"></i><span>Remove</span>';
+                    document.querySelector('.flex-col.space-y-2').appendChild(removeBtn);
+                    
+                    // Add remove functionality
+                    removeBtn.addEventListener('click', function() {
+                        previewImg.remove();
+                        e.target.value = '';
+                        if (defaultAvatar) defaultAvatar.style.display = 'flex';
+                        removeBtn.remove();
+                    });
+                }
+            };
+            
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Existing remove button functionality
+    const existingRemoveBtn = document.getElementById('remove-avatar');
+    if (existingRemoveBtn) {
+        existingRemoveBtn.addEventListener('click', function() {
+            const previewImg = document.getElementById('avatar-preview-img');
+            const fileInput = document.getElementById('avatar');
+            const defaultAvatar = document.getElementById('default-avatar');
+            
+            if (previewImg) previewImg.remove();
+            if (fileInput) fileInput.value = '';
+            if (defaultAvatar) defaultAvatar.style.display = 'flex';
+            existingRemoveBtn.remove();
+        });
+    }
+            </script> -->
+</body>
+
+</html>
